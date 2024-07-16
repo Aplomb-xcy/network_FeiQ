@@ -53,8 +53,8 @@ bool UdpNet::InitNet() {
 	//绑定ip地址
     sockaddr_in sendAddr;
     sendAddr.sin_family = AF_INET;
-    sendAddr.sin_port = htons(HOST);
-    sendAddr.sin_addr.S_un.S_addr = inet_addr("SEND_IP");
+    sendAddr.sin_port = INADDR_ANY;
+    sendAddr.sin_addr.S_un.S_addr = inet_addr(SEND_IP);
 
     err = bind(sock, (sockaddr*)&sendAddr, sizeof(sendAddr));
     if (SOCKET_ERROR == err) {
@@ -88,7 +88,7 @@ unsigned __stdcall UdpNet::recvDataThread(void* ignored){
 bool UdpNet::SendData(char* sendData, int len, long ISend) {
     sockaddr_in sendAddr;
     sendAddr.sin_family = AF_INET;
-    sendAddr.sin_port = htons(HOST);
+    sendAddr.sin_port = htons(SEND_HOST);
     sendAddr.sin_addr.S_un.S_addr = ISend;
     if (SOCKET_ERROR == sendto(sock, sendData, len, 0, (sockaddr*)&sendAddr, sizeof(sendAddr))) {
         cout << "send error    " << WSAGetLastError() << endl;

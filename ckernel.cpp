@@ -11,7 +11,7 @@ CKernel::CKernel(QObject *parent) : QObject(parent)
     //申请中介者类的空间
     m_pInetMed=new UdpNetMediator;
 
-    //绑定信号和槽函数的位置：在接收数据的类中申请从那接受的类的new下边
+    //绑定信号和槽函数的位置：在接收数据的类中申请从那发送的类的new下边
     connect(m_pInetMed,SIGNAL(SIG_aboutData(char* , int , long )),this,SLOT(slot_aboutData(char* , int , long )));
 
     //初始化网络

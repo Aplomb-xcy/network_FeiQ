@@ -11,7 +11,7 @@ public:
 	//打开网络
 	 bool OpenNet();
 	//发送数据
-	 bool SendData(char* sendData, int len, long ISend);
+     bool SendData(char* sendData, int len, long ISend);
 	//处理数据
 	 bool DealData(char* recvData, int len, long ISend);
 	//关闭网络

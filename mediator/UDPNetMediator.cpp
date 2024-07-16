@@ -14,7 +14,7 @@ bool UdpNetMediator::OpenNet() {
 }
 //发送数据
 bool UdpNetMediator::SendData(char* sendData, int len, long ISend) {
-	return p_Net->SendData(sendData, len, ISend);
+    return p_Net->SendData(sendData, len, ISend);
 }
 //处理数据
 bool UdpNetMediator::DealData(char* recvData, int len, long ISend) {
