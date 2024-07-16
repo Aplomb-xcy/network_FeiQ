@@ -3,6 +3,7 @@
 #include"INetMediator.h"
 class UdpNet;
 class UdpNetMediator :public INetMediator {
+    Q_OBJECT
 public:
 	UdpNetMediator();
 	~UdpNetMediator();
@@ -15,6 +16,7 @@ public:
 	 bool DealData(char* recvData, int len, long ISend);
 	//关闭网络
 	 bool CloseNet();
-
+signals:
+     void SIG_aboutData(char* recvData, int len, long ISend);
 
 };

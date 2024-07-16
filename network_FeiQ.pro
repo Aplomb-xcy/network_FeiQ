@@ -14,12 +14,15 @@ INCLUDEPATH +=./mediator
 LIBS +=-lWs2_32
 
 SOURCES += \
+    ckernel.cpp \
     inet/UDPNet.cpp \
     main.cpp \
     imdialog.cpp \
+    mediator/INetMediator.cpp \
     mediator/UDPNetMediator.cpp
 
 HEADERS += \
+    ckernel.h \
     imdialog.h \
     inet/INet.h \
     inet/UDPNet.h \

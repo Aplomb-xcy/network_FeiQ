@@ -5,6 +5,7 @@ IMDialog::IMDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::IMDialog)
 {
+    qDebug()<<__func__;
     ui->setupUi(this);
 }
 

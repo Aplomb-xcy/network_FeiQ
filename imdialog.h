@@ -2,6 +2,8 @@
 #define IMDIALOG_H
 
 #include <QDialog>
+#include <QObject>
+#include <QDebug>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class IMDialog; }

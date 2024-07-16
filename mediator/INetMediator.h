@@ -1,9 +1,12 @@
 #pragma once
+#include <QObject>
 class INet;
-class INetMediator {
+class INetMediator:public QObject
+{
+    Q_OBJECT
 public:
-	INetMediator() {}
-	~INetMediator() {}
+    INetMediator();
+    ~INetMediator() ;
 
 	//打开网络
 	virtual bool OpenNet() = 0;
