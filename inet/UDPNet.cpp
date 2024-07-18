@@ -50,11 +50,13 @@ bool UdpNet::InitNet() {
     else {
         cout << "socket success" << endl;
     }
+    BOOL bval=TRUE;
+    setsockopt(sock,SOL_SOCKET,SO_BROADCAST,(const char*)&bval,sizeof(bval));
 	//绑定ip地址
     sockaddr_in sendAddr;
     sendAddr.sin_family = AF_INET;
-    sendAddr.sin_port = INADDR_ANY;
-    sendAddr.sin_addr.S_un.S_addr = inet_addr(SEND_IP);
+    sendAddr.sin_port = htons(SEND_HOST);
+    sendAddr.sin_addr.S_un.S_addr = INADDR_ANY;
 
     err = bind(sock, (sockaddr*)&sendAddr, sizeof(sendAddr));
     if (SOCKET_ERROR == err) {
@@ -73,6 +75,7 @@ bool UdpNet::InitNet() {
         cout << "create thread error" << endl;
         return false;
     }
+
 	return true;
 }
 unsigned __stdcall UdpNet::recvDataThread(void* ignored){

@@ -14,7 +14,23 @@ public:
     IMDialog* m_pImdialog;
     INetMediator* m_pInetMed;
 public slots:
+    //处理数据的槽函数
     void slot_aboutData(char* recvData, int len, long ISend);
+    //用户双击的槽函数
+    void solt_userClicked(QString ip);
+
+public:
+    //处理上线请求
+    void dealOnlinRq(char* recvData, int len, long ISend);
+
+    //处理上线回复
+    void dealOnlinRs(char* recvData, int len, long ISend);
+
+    //处理聊天请求
+    void dealChatRq(char* recvData, int len, long ISend);
+
+    //处理下线请求
+    void dealOfflineRq(char* recvData, int len, long ISend);
 
 signals:
 
