@@ -4,6 +4,8 @@
 #include "imdialog.h"
 #include <QObject>
 #include "UDPNetMediator.h"
+#include<QMap>
+#include"chatdialog.h"
 
 class CKernel : public QObject
 {
@@ -13,11 +15,15 @@ public:
     ~CKernel();
     IMDialog* m_pImdialog;
     INetMediator* m_pInetMed;
+    QMap<long,ChatDialog*> map_ipTodlg;
+
 public slots:
     //处理数据的槽函数
     void slot_aboutData(char* recvData, int len, long ISend);
     //用户双击的槽函数
     void solt_userClicked(QString ip);
+    //处理发送消息的槽函数
+    void slot_sendMSG(QString ip,QString content);
 
 public:
     //处理上线请求
@@ -31,6 +37,8 @@ public:
 
     //处理下线请求
     void dealOfflineRq(char* recvData, int len, long ISend);
+
+
 
 signals:
 

@@ -14,6 +14,7 @@ INCLUDEPATH +=./mediator
 LIBS +=-lWs2_32
 
 SOURCES += \
+    chatdialog.cpp \
     ckernel.cpp \
     inet/UDPNet.cpp \
     main.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
     mediator/UDPNetMediator.cpp
 
 HEADERS += \
+    chatdialog.h \
     ckernel.h \
     imdialog.h \
     inet/INet.h \
@@ -31,6 +33,7 @@ HEADERS += \
     mediator/UDPNetMediator.h
 
 FORMS += \
+    chatdialog.ui \
     imdialog.ui
 
 # Default rules for deployment.

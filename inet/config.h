@@ -5,7 +5,7 @@
 #define _DEF_HOST_NAME_SIZE         (60)
 #define _DEF_CONTENT_SIZE           (1024)
 #define SEND_HOST (24465)
-#define SEND_IP ("192.168.1.5")
+#define SEND_IP ("192.168.0.222")
 
 #define _DEF_PROTOCOL_BASE          (1000)
 #define _DEF_UDP_ONLINE_RQ          (_DEF_PROTOCOL_BASE+1)

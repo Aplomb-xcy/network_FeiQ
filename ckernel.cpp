@@ -66,7 +66,27 @@ void CKernel::slot_aboutData(char *recvData, int len, long ISend)
 void CKernel::solt_userClicked(QString ip)
 {
     qDebug()<<__func__;
+    long IP=inet_addr(ip.toStdString().c_str());
+    if(map_ipTodlg.count(IP)){
+        ChatDialog* p_chat=map_ipTodlg[IP];
+        p_chat->showNormal();
+    }
 }
+
+void CKernel::slot_sendMSG(QString ip, QString content)
+{
+    qDebug()<<__func__;
+    //根据ip找到聊天窗口
+    long LIP=inet_addr(ip.toStdString().c_str());
+    if(map_ipTodlg.count(LIP)>0){
+        ChatDialog* p_chat=map_ipTodlg[LIP];
+        p_chat->setMessage(content);
+        p_chat->showNormal();
+    }
+
+}
+
+
 //处理上线请求
 void CKernel::dealOnlinRq(char *recvData, int len, long ISend)
 {
@@ -76,24 +96,55 @@ void CKernel::dealOnlinRq(char *recvData, int len, long ISend)
     qDebug()<<online_RQ->name;
     qDebug()<<online_RQ->type;
     //将该好友添加到聊天列表中
-    m_pImdialog->addFriend("192.168.1.5",online_RQ->name);
+    m_pImdialog->addFriend(INet::getIPString(ISend).c_str(),online_RQ->name);
     //创建聊天窗口
+    ChatDialog* p_chatdlg=new ChatDialog;
+    p_chatdlg->setWindowInfo(INet::getIPString(ISend).c_str());
+
+    connect(p_chatdlg,SIGNAL(SIG_sendMSG(QString,QString )),this,SLOT(slot_sendMSG(QString,QString )));
 
     //将聊天窗口放到map中，key是ip，value是聊天窗口
-
+    map_ipTodlg[ISend]=p_chatdlg;
     //判断是不是自己发送的广播
 
+    set<long> ip_Set=INet::getVailedIP();
+    if(ip_Set.count(ISend)>0){
+        return;
+    }
     //不是自己，发送一个上线回复
-
+    struct STRU_UDP_ONLINE online_rs;
+    online_rs.type=_DEF_UDP_ONLINE_RS;
+    gethostname(online_rs.name,sizeof(online_rs.name));
+    m_pInetMed->SendData((char*)&online_rs,sizeof(online_rs),ISend);
 }
 //处理上线回复
 void CKernel::dealOnlinRs(char *recvData, int len, long ISend)
 {
     qDebug()<<__func__;
+    //拆包
+    struct STRU_UDP_ONLINE* online_RQ=(struct STRU_UDP_ONLINE*)recvData;
+    qDebug()<<online_RQ->name;
+    qDebug()<<online_RQ->type;
+    //将该好友添加到聊天列表中
+    m_pImdialog->addFriend(INet::getIPString(ISend).c_str(),online_RQ->name);
+    //创建聊天窗口
+    ChatDialog* p_chatdlg=new ChatDialog;
+    p_chatdlg->setWindowInfo(INet::getIPString(ISend).c_str());
+
+    connect(m_pImdialog,SIGNAL(SIG_sendMSG(QString,QString )),this,SLOT(slot_sendMSG(QString,QString )));
+
+    //将聊天窗口放到map中，key是ip，value是聊天窗口
+    map_ipTodlg[ISend]=p_chatdlg;
 }
 //处理聊天请求
 void CKernel::dealChatRq(char *recvData, int len, long ISend)
 {
+    qDebug()<<__func__;
+    struct STRU_UDP_CHAT_RQ* chat_rq=(struct STRU_UDP_CHAT_RQ*)recvData;
+    if(map_ipTodlg.count(ISend)<=0)return;
+    ChatDialog* p_chat=map_ipTodlg[ISend];
+    p_chat->setMessage(chat_rq->content);
+    p_chat->showNormal();
     qDebug()<<__func__;
 }
 //处理下线请求
